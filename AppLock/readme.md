@@ -1,0 +1,1 @@
+This folder contains all files for the App Lock. Understand what is needed from it by reading the .xml and .java files carefully once. Then, begin integration
