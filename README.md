@@ -1,7 +1,7 @@
 ### Eve
 
 Contributors:
-1.)Aaryadev Chandra
+1.)Aaryadev Chandra\n
 2.)Suvaditya Mukherjee
 3.)Harshad Shah
 4.)Shounak Deshmukh
