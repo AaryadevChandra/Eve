@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ISALock</string>
+    <string name="welcome">Welcome to ISALock</string>
+    <string name="firstbutton">Save &amp; Continue</string>
+    <string name="firsttxtview1">Please enter a code of 8 alphanumeric characters. Make sure you can remember it well, because if lost, there is no method with which one can access the next screens.</string>
+    <string name="firsttxtview2">Please re-enter your passcode</string>
+    <string name="app">First Screen of the app</string>
+    <string name="biometrictv">Welcome to the Biometric screen</string>
+    <string name="passwordtv">Welcome to Password screen</string>
+    <string name="continuekey">Continue</string>
+    <string name="passwordbutton">Verify</string>
+</resources>
