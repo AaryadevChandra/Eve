@@ -10,12 +10,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,24 +27,29 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.PolyUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    Executor ex1, ex2;
+    Button bt;
 
     public StringBuilder addParameterPlaces(String query, String value)
     {
@@ -95,17 +103,14 @@ public class MainActivity extends AppCompatActivity {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
+        supportMapFragment.getMapAsync(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.map_fragment, supportMapFragment).commit();
+
 
         //allowing networking functions on main thread (to be changed later)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     //Requesting location updates
@@ -128,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void buttonClick(android.view.View v)
+    public void ratingFunction(android.view.View v, int returnFlag, double midLat, double midLng)
     {
         if(checkLocationPermission())
         {
@@ -176,74 +181,71 @@ public class MainActivity extends AppCompatActivity {
                                     int no_of_results = jsonObjectPlaces.getJSONArray("results").length();
 
 
-                                    EditText textView = findViewById(R.id.textView);
-
                                     //storing the results in an array and getting the Lat Lng of the Places API response json
-                                    for(int i=0;i<no_of_results;i++)
-                                    {
+                                    for(int i=0;i<no_of_results;i++) {
                                         //getting the lat lng for each place
                                         Double placeLat = jsonObjectPlaces.getJSONArray("results").getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getDouble("lat");
                                         Double placeLng = jsonObjectPlaces.getJSONArray("results").getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getDouble("lng");
 
                                         //creating the url for DistanceMatrix API
                                         StringBuilder sbDistanceMatrixRequestURL = new StringBuilder("https://maps.googleapis.com/maps/api/distancematrix/json?");
-                                        String DistanceMatrixRequest_url_formatted = String.format(Locale.US, "&origins=%f,%f&destinations=%f,%f&key=%s", location.getLatitude(), location.getLongitude(), placeLat, placeLng, getString(R.string.API_KEY));
+
+                                        //building the url based on whether search inputs are selected or user's current location
+                                        String DistanceMatrixRequest_url_formatted = null;
+                                        if (returnFlag == 0) {
+                                            DistanceMatrixRequest_url_formatted = String.format(Locale.US, "&origins=%f,%f&destinations=%f,%f&key=%s", location.getLatitude(), location.getLongitude(), placeLat, placeLng, getString(R.string.API_KEY));
+                                        }
+                                        else if(returnFlag == 1)
+                                        {
+                                            DistanceMatrixRequest_url_formatted = String.format(Locale.US, "&origins=%f,%f&destinations=%f,%f&key=%s", midLat, midLng, placeLat, placeLng, getString(R.string.API_KEY));
+                                        }
+
                                         sbDistanceMatrixRequestURL.append(DistanceMatrixRequest_url_formatted);
                                         String DistanceMatrixRequestURL = sbDistanceMatrixRequestURL.toString();
 
                                         Request requestDistanceMatrix = new Request.Builder().url(DistanceMatrixRequestURL).get().build();
 
-                                        try
-                                        {
+                                        try {
                                             //performing the DistanceMatrix API call here to get the distance bw current location and response places
                                             Response responseDistanceMatrix = client.newCall(requestDistanceMatrix).execute();
                                             JSONObject jsonObjectDistanceMatrix = new JSONObject(responseDistanceMatrix.body().string());
                                             int distance = jsonObjectDistanceMatrix.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("distance").getInt("value");
 
-                                            if(distance < 500)
-                                            {
+                                            if (distance < 500) {
                                                 totalSafetyPoints += safetyPoints[placeTypeChangeFlag] * 2.50;
-                                            }
-                                            else if(distance >= 500 && distance < 1000)
-                                            {
+                                            } else if (distance >= 500 && distance < 1000) {
                                                 totalSafetyPoints += safetyPoints[placeTypeChangeFlag] * 2.25;
-                                            }
-                                            else if(distance >= 1000 && distance < 1500)
-                                            {
+                                            } else if (distance >= 1000 && distance < 1500) {
                                                 totalSafetyPoints += safetyPoints[placeTypeChangeFlag] * 2.00;
-                                            }
-                                            else if(distance >= 1500 && distance < 2000)
-                                            {
+                                            } else if (distance >= 1500 && distance < 2000) {
                                                 totalSafetyPoints += safetyPoints[placeTypeChangeFlag] * 1.75;
-                                            }
-                                            else if(distance >= 2000 && distance < 2500)
-                                            {
+                                            } else if (distance >= 2000 && distance < 2500) {
                                                 totalSafetyPoints += safetyPoints[placeTypeChangeFlag] * 1.50;
-                                            }
-                                            else if(distance >= 2500 && distance < 3000)
-                                            {
+                                            } else if (distance >= 2500 && distance < 3000) {
                                                 totalSafetyPoints += safetyPoints[placeTypeChangeFlag] * 1.25;
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 totalSafetyPoints += safetyPoints[placeTypeChangeFlag];
                                             }
-                                        }
-                                        catch (IOException | JSONException e)
-                                        {
+                                        } catch (IOException | JSONException e) {
                                             e.printStackTrace();
                                         }
                                     }
-
                                     if(placeTypeChangeFlag == types.length - 1)
                                     {
-                                        EditText pointsTextView = findViewById(R.id.pointsTextView);
-                                        pointsTextView.setText(Double.toString(totalSafetyPoints));
 
-                                        Intent intent = new Intent(getBaseContext(), Fragment.class);
-                                        intent.putExtra("lat", location.getLatitude());
-                                        intent.putExtra("lng", location.getLongitude());
-                                        startActivity(intent);
+                                        bt = findViewById(R.id.bt);
+
+                                        final double temp = totalSafetyPoints;
+
+                                        bt.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                Intent intent = new Intent(getBaseContext(), Transfer.class);
+                                                intent.putExtra("totalSafetyPoints", temp);
+                                                startActivity(intent);
+                                            }
+                                        });
                                     }
                                     placeTypeChangeFlag++;
                                 }
@@ -256,16 +258,90 @@ public class MainActivity extends AppCompatActivity {
                         else if(location == null)
                         {
                             requestLocationUpdates();
-                            buttonClick(v);
+                            ratingFunction(v, returnFlag, midLat, midLng);
                         }
                     }
                 });
             }
         }
     }
-    public void mapsButton(android.view.View v)
-    {
-        Intent switchActivitiesIntent = new Intent(this, Fragment.class);
-        startActivity(switchActivitiesIntent);
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        double totalSafetyPoints = 0;
+        double ratingForRoute = 0;
+        double sum = 0;
+
+
+        setContentView(R.layout.maps_main);
+
+        EditText debugMapsView = findViewById(R.id.debugMapsView);
+        debugMapsView.append("again");
+
+
+        EditText startLocationTextView = findViewById(R.id.startLocationTextView);
+        EditText destinationTextView = findViewById(R.id.destinationTextView);
+
+        String startLocationTextQuery = startLocationTextView.getText().toString();
+        String destinationTextQuery = destinationTextView.getText().toString();
+
+        //building the request URL for Directions API
+        StringBuilder sbDirectionsRequestURL = new StringBuilder("https://maps.googleapis.com/maps/api/directions/json?");
+        String DirectionsRequest_url_formatted = String.format(Locale.US, "origin=%s&destination=%s&key=%s", startLocationTextQuery, destinationTextQuery, getString(R.string.API_KEY));
+        sbDirectionsRequestURL.append(DirectionsRequest_url_formatted);
+        String DistanceRequestURL = sbDirectionsRequestURL.toString();
+
+        OkHttpClient client = new OkHttpClient();
+        Request requestDirections = new Request.Builder().url(DistanceRequestURL).get().build();
+        try {
+            Response responseDirections = client.newCall(requestDirections).execute();
+            JSONObject jsonObjectDirections = new JSONObject(responseDirections.body().string());
+
+            int stepsLength = jsonObjectDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").length();
+
+            StringBuilder polylinePoints = new StringBuilder();
+
+            List<LatLng> latLngs;
+            double midlat, midlng, AvgSafetyPointsAddition = 0;
+
+            for(int i=0;i<stepsLength;i++) {
+                //displays the polyline on the map from start point to destination
+                latLngs = PolyUtil.decode(jsonObjectDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs")
+                        .getJSONObject(0).getJSONArray("steps").getJSONObject(i).getJSONObject("polyline").getString("points"));
+                googleMap.addPolyline(new PolylineOptions().addAll(latLngs).width(5).color(Color.BLUE));
+
+                midlat = jsonObjectDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(i).getJSONObject("start_location").getDouble("lat");
+                midlng = jsonObjectDirections.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(i).getJSONObject("start_location").getDouble("lng");
+
+                ratingFunction(null, 1, midlat, midlng);
+
+                totalSafetyPoints = getIntent().getDoubleExtra("totalSafetyPoints", 0);
+
+                sum = sum + totalSafetyPoints;
+            }
+
+            ratingForRoute = sum / stepsLength;
+
+            EditText debugView = findViewById(R.id.debugView);
+            debugView.setText(Double.toString(ratingForRoute));
+
+
+        } catch (JSONException | IOException  e) {
+            e.printStackTrace();
+        }
+    }
+    public void searchButtonClick(android.view.View v) throws IOException, JSONException {
+
+        // reading the text values of start point and destination and storing then in variables
+//        EditText destinationTextView = findViewById(R.id.destinationTextView);
+//        EditText startLocationTextView = findViewById(R.id.startLocationTextView);
+
+//        String startLocationTextQuery = startLocationTextView.getText().toString();
+//        String destinationTextQuery = destinationTextView.getText().toString();
+
+
+
+
     }
 }
