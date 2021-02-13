@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Loc+SMSTrial</string>
+    <string name="lat">Latitude</string>
+    <string name="longi">Longitude</string>
+    <string name="TxtV1">Check your Location now!</string>
+    <string name="TxtV2">Send your location to the number</string>
+    <string name="Phone">Phone(Please enter +91 as well)</string>
+</resources>
