@@ -1,5 +1,5 @@
 
-// testing
+//.
 package com.example.locationratingiv;
 
 import androidx.annotation.NonNull;
