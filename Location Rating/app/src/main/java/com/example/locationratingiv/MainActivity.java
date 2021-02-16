@@ -75,7 +75,7 @@ public class MainActivity extends FragmentActivity {
 
         Intent i = new Intent(getBaseContext(), Fragment.class);
         i.putExtra("startLocationQuery", startLocationView.getText().toString());
-        i.putExtra("destinationQuery", destinationView.getText().toString()); //.
+        i.putExtra("destinationQuery", destinationView.getText().toString());
         startActivity(i);
     }
 }
