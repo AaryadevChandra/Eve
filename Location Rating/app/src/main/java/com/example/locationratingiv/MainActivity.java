@@ -70,7 +70,12 @@ public class MainActivity extends FragmentActivity {
 
     public void switchActivities(android.view.View v)
     {
+        EditText startLocationView = findViewById(R.id.startLocationTextView);
+        EditText destinationView = findViewById(R.id.destinationTextView);
+
         Intent i = new Intent(getBaseContext(), Fragment.class);
+        i.putExtra("startLocationQuery", startLocationView.getText().toString());
+        i.putExtra("destinationQuery", destinationView.getText().toString());
         startActivity(i);
     }
 }

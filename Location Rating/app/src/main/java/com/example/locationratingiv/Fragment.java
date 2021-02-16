@@ -159,8 +159,8 @@ public class Fragment extends AppCompatActivity implements OnMapReadyCallback {
 
 
 
-        String startLocationTextQuery = getIntent().getStringExtra("start");
-        String destinationTextQuery = getIntent().getStringExtra("end");
+        String startLocationTextQuery = getIntent().getStringExtra("startLocationQuery");
+        String destinationTextQuery = getIntent().getStringExtra("destinationQuery");
 
 //        building the request URL for Directions API
         StringBuilder sbDirectionsRequestURL = new StringBuilder("https://maps.googleapis.com/maps/api/directions/json?");
