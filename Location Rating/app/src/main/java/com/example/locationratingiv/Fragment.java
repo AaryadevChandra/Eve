@@ -10,7 +10,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,8 +27,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -38,26 +35,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.SerializablePermission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.lang.Object;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
 
 public class Fragment extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -152,7 +143,8 @@ public class Fragment extends AppCompatActivity implements OnMapReadyCallback {
 
 
 
-    @Override
+
+        @Override
     public void onMapReady(GoogleMap googleMap) {
 
         EditText debug = findViewById(R.id.debugMapsView);
@@ -201,6 +193,9 @@ public class Fragment extends AppCompatActivity implements OnMapReadyCallback {
                     }
                     if(isLocationEnabled())
                     {
+                        double finalMidlat = midlat;
+                        double finalMidlng = midlng;
+                        java.lang.Boolean openNow = null;
                         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                             @Override
                             public void onComplete(@NonNull Task<Location> task) {
@@ -238,6 +233,8 @@ public class Fragment extends AppCompatActivity implements OnMapReadyCallback {
 
                                             double placeLat;
                                             double placeLng;
+                                            boolean isopen;
+
 
 
                                             //storing the results in an array and getting the Lat Lng of the Places API response json
@@ -245,7 +242,7 @@ public class Fragment extends AppCompatActivity implements OnMapReadyCallback {
                                                 //getting the lat lng for each place
                                                 placeLat = jsonObjectPlaces.getJSONArray("results").getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getDouble("lat");
                                                 placeLng = jsonObjectPlaces.getJSONArray("results").getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-
+                                                isopen = jsonObjectPlaces.getJSONArray("results").getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getBoolean(String.valueOf(openNow));
                                                 //creating the url for DistanceMatrix API
                                                 StringBuilder sbDistanceMatrixRequestURL = new StringBuilder("https://maps.googleapis.com/maps/api/distancematrix/json?");
 
@@ -280,6 +277,12 @@ public class Fragment extends AppCompatActivity implements OnMapReadyCallback {
                                                     } else {
                                                         totalSafetyPoints += safetyPoints[placeTypeChangeFlag];
                                                     }
+
+                                                    if(isopen){
+                                                        totalSafetyPoints += safetyPoints[placeTypeChangeFlag] * 2.00;
+
+                                                    }
+
                                                 }
                                                 catch (IOException | JSONException e)
                                                 {
@@ -313,6 +316,16 @@ public class Fragment extends AppCompatActivity implements OnMapReadyCallback {
         catch (JSONException | IOException  e)
         {
             e.printStackTrace();
+        }
+    }
+    public class OpeningHours {
+
+
+        private Boolean openNow;
+
+
+        public Boolean getOpenNow() {
+            return openNow;
         }
     }
 }
