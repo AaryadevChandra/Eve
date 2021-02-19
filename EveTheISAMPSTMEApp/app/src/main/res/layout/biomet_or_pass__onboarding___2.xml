@@ -1,0 +1,180 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent" android:layout_height="wrap_content" >
+	<!-- 
+	/*
+	 *	This content is generated from the API File Info.
+	 *	(Alt+Shift+Ctrl+I).
+	 *
+	 *	@desc 		
+	 *	@file 		sign_in_page__onboarding__1
+	 *	@date 		0
+	 *	@title 		sign in page (onboarding)-1
+	 *	@author 	
+	 *	@keywords 	
+	 *	@generator 	Export Kit v1.3.xd
+	 *
+	 */
+	-->
+	<ScrollView android:id="@+id/biomet_or_pass__onboarding___2" 
+		android:layout_width="wrap_content" 
+		android:layout_height="match_parent" >
+
+		<RelativeLayout android:id="@+id/content_container" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" >
+
+
+
+			<RelativeLayout android:id="@+id/page_biomet_or_pass__onboarding___2_ek1"
+				android:layout_marginTop="0dp"
+				android:layout_marginStart="0dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				>
+
+				<View android:id="@+id/_bg__biomet_or_pass__onboarding___2_ek2"
+					android:background="@drawable/_bg__biomet_or_pass__onboarding___2_ek2_shape"
+					 android:layout_marginLeft="0dp"
+					 android:layout_marginStart="0dp"
+					android:layout_marginTop="0dp"
+					android:layout_width="412dp"
+					android:layout_height="870dp" />
+
+
+				<RelativeLayout android:id="@+id/add_biometric"
+					android:layout_marginTop="392dp"
+					android:layout_marginStart="72dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+					<ImageView android:id="@+id/path_35"
+						android:src="@drawable/path_35"
+						android:contentDescription="path_35"
+						 android:layout_marginLeft="-26dp"
+						 android:layout_marginStart="-26dp"
+						android:layout_marginTop="-26dp"
+						android:layout_width="328dp"
+						android:layout_height="102dp" />
+
+					<TextView android:id="@+id/add_biometric_ek1"
+						android:fontFamily="Product Sans"
+						android:layout_gravity="center_horizontal|center"
+						android:gravity="center"
+						android:textSize="21sp"
+						android:textColor="@color/skip_ek1_color"
+						android:layout_marginLeft="64dp"
+						android:layout_marginTop="8dp"
+						android:layout_width="135dp"
+						android:layout_height="29dp"
+						android:text="@string/add_biometric_ek1_string"
+						 />
+
+				</RelativeLayout>
+
+
+				<RelativeLayout android:id="@+id/or_separator"
+					android:layout_marginTop="456dp"
+					android:layout_marginStart="22dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+					<ImageView android:id="@+id/line_2"
+						android:src="@drawable/line_2"
+						android:contentDescription="line_2"
+						 android:layout_marginLeft="0dp"
+						 android:layout_marginStart="0dp"
+						android:layout_marginTop="7dp"
+						android:layout_width="173dp"
+						android:layout_height="1dp" />
+
+					<ImageView android:id="@+id/line_3"
+						android:src="@drawable/line_3"
+						android:contentDescription="line_3"
+						 android:layout_marginLeft="195dp"
+						 android:layout_marginStart="195dp"
+						android:layout_marginTop="7dp"
+						android:layout_width="173dp"
+						android:layout_height="1dp" />
+
+					<TextView android:id="@+id/or"
+						android:fontFamily="Helvetica Neue"
+						android:layout_gravity="center_horizontal|center"
+						android:gravity="center"
+						android:alpha="0.5265"
+						 android:textSize="13sp"
+						android:textColor="@color/email_ek1_color"
+						android:layout_marginLeft="176dp"
+						android:layout_marginTop="0dp"
+						android:layout_width="19dp"
+						android:layout_height="20dp"
+						android:text="@string/or_string"
+						 />
+
+				</RelativeLayout>
+
+
+				<RelativeLayout android:id="@+id/add_password"
+					android:layout_marginTop="492dp"
+					android:layout_marginStart="72dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+					<ImageView android:id="@+id/path_33"
+						android:src="@drawable/path_33"
+						android:contentDescription="path_33"
+						 android:layout_marginLeft="-26dp"
+						 android:layout_marginStart="-26dp"
+						android:layout_marginTop="-26dp"
+						android:layout_width="328dp"
+						android:layout_height="102dp" />
+
+					<TextView android:id="@+id/add_password_ek1"
+						android:fontFamily="Product Sans"
+						android:layout_gravity="center_horizontal|center"
+						android:gravity="center"
+						android:textSize="21sp"
+						android:textColor="@color/skip_ek1_color"
+						android:layout_marginLeft="63dp"
+						android:layout_marginTop="7dp"
+						android:layout_width="135dp"
+						android:layout_height="29dp"
+						android:text="@string/add_password_ek1_string"
+						 />
+
+				</RelativeLayout>
+
+
+				<RelativeLayout android:id="@+id/applogo_04_ek1"
+					android:layout_marginTop="181dp"
+					android:layout_marginStart="143dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+					<ImageView android:id="@+id/group_79_ek1"
+						android:src="@drawable/group_79_ek1"
+						android:contentDescription="group_79_ek1"
+						 android:layout_marginLeft="0dp"
+						 android:layout_marginStart="0dp"
+						android:layout_marginTop="0dp"
+						android:layout_width="126.79309082031dp"
+						android:layout_height="139.56005859375dp" />
+
+				</RelativeLayout>
+
+			</RelativeLayout>
+
+
+
+
+
+
+
+
+		</RelativeLayout>
+
+	</ScrollView>
+</HorizontalScrollView>

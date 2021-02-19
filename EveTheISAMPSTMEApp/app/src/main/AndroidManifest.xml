@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.eve_theisampstmeapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.EveTheISAMPSTMEApp">
+        <activity android:name=".sign_in_page__onboarding__1_activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".biomet_or_pass__onboarding___2_activity"/>
+        <activity android:name=".password__onboarding___3_activity"/>
+        <activity android:name=".phone_number__onboarding____4_activity"/>
+        <activity android:name=".verify_otp__onboarding_____5_activity"/>
+        <activity android:name=".sos_button_pressed__location____3_activity"/>
+        <activity android:name=".sos_button_pressed__contacts____4_activity"/>
+        <activity android:name=".map__rating_screen___5_activity"/>
+        <activity android:name=".map__route___6__activity"/>
+        <activity android:name=".menu_2_activity"/>
+        <activity android:name=".home_screen__1_activity"/>
+        <activity android:name=".splash___0_activity"/>
+        <activity android:name=".sos_msg___7_activity"/>
+        <activity android:name=".add_contacts__11_activity"/>
+    </application>
+</manifest>
