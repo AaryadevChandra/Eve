@@ -35,53 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     double lat, lng;
 
-    //private SimpleLocation sl;
-//double lat, longi;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        sl = new SimpleLocation(this);
-//        if(!sl.hasLocationEnabled())
-//            SimpleLocation.openSettings(this);
-//        sl.beginUpdates();
-//    }
-//    public void onClick1(View v)
-//    {
-//        SimpleLocation.Point loc = sl.getPosition();
-//        //sl.endUpdates();
-//        lat = sl.getLatitude();
-//        longi = sl.getLongitude();
-//        ((TextView)findViewById(R.id.lati)).setText(String.valueOf(lat));
-//        ((TextView)findViewById(R.id.longit)).setText(String.valueOf(longi));
-//    }
-//    public void onClick2(View v)
-//    {
-//        Intent i = new Intent(this, SMSActivity.class);
-//        i.putExtra("Lat", lat);
-//        i.putExtra("Longi", longi);
-//        startActivity(i);
-//
-//    }
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        // make the device update its location
-//        sl.beginUpdates();
-//
-//        // ...
-//    }
-//    @Override
-//    protected void onPause() {
-//        // stop location updates (saves battery)
-//        sl.endUpdates();
-//
-//        // ...
-//
-//        super.onPause();
-//    }
-
     FusedLocationProviderClient fusedLocationProviderClient;
 
 
